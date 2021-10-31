@@ -1,0 +1,70 @@
+/** file: /App.css **/
+
+h1,
+h2 {
+	text-align: center;
+	margin: 1em auto;
+}
+a {
+	color: whitesmoke;
+}
+.orange {
+	fill: var(--orange);
+}
+.lemon {
+	fill: var(--white);
+}
+.circle {
+	stroke: var(--light-green);
+	stroke-width: 60px;
+}
+
+.main {
+	min-height: 100vh;
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+}
+.flex {
+	display: flex;
+}
+.column {
+	flex-direction: column;
+}
+
+.container {
+	flex-grow: 1;
+	justify-content: flex-start;
+	position: relative;
+}
+
+label {
+	display: block;
+}
+
+input,
+button,
+select,
+textarea {
+	font-family: inherit;
+	font-size: inherit;
+	padding: 0.4em;
+	margin: 0 0 0.5em 0;
+	box-sizing: border-box;
+	border-radius: 2px;
+}
+
+.modal {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	padding: 0 20%;
+	background: rgb(35, 35, 35);
+	padding-bottom: 70px;
+	z-index: 12;
+}
+
+.danger {
+	background-color: var(--strawberry);
+	color: whitesmoke;
+}
