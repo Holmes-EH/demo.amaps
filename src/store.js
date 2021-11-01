@@ -8,6 +8,8 @@ const amapFromStorage =
 const initialState = {
 	user: userFromStorage,
 	amap: amapFromStorage,
+	session: {},
+	nextDelivery: {},
 	products: [],
 }
 const store = createContext(initialState)
@@ -34,8 +36,18 @@ const StateProvider = ({ children }) => {
 				}
 			case 'RESET_MESSAGE':
 				return { ...state, message: undefined }
+			case 'SET_PRODUCT_LIST': {
+				return { ...state, products: action.payload }
+			}
+			case 'RESET_PRODUCT_LIST': {
+				return { ...state, products: undefined }
+			}
 			case 'SET_AMAP':
 				return { ...state, amap: action.payload }
+			case 'SET_SESSION':
+				return { ...state, session: action.payload }
+			case 'SET_NEXT_DELIVERY':
+				return { ...state, nextDelivery: action.payload }
 			default:
 				throw new Error()
 		}
