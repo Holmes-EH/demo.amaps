@@ -77,7 +77,7 @@ const Register = ({ setRegister }) => {
 			{loading ? (
 				<Loader />
 			) : (
-				<div className='flex login column'>
+				<div className='flex login column glass'>
 					<div className='logo'>
 						<Lemon />
 					</div>

@@ -53,7 +53,7 @@ const Recover = () => {
 			{loading ? (
 				<Loader />
 			) : (
-				<div className='flex login'>
+				<div className='flex login glass'>
 					<h2>Afin de remettre votre mot de passe à zéro,</h2>
 					<h2>
 						Merci de renseigner l'adresse mail avec laquelle vous

@@ -89,7 +89,7 @@ const NewPassword = () => {
 			{loading ? (
 				<Loader />
 			) : (
-				<div className='flex login column'>
+				<div className='flex login column glass'>
 					<h2>
 						Bonjour
 						<br />

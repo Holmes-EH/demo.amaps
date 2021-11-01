@@ -81,7 +81,7 @@ const Login = () => {
 			) : register ? (
 				<Register setRegister={setRegister} />
 			) : (
-				<div className='flex login'>
+				<div className='flex login glass'>
 					<div className='logo'>
 						<Lemon />
 					</div>

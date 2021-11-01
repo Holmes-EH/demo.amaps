@@ -57,7 +57,7 @@ const Landing = () => {
 			{loading ? (
 				<Loader />
 			) : (
-				<div className='flex login'>
+				<div className='flex login glass'>
 					<div className='logo'>
 						<Lemon />
 					</div>
