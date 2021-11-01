@@ -1,0 +1,10 @@
+/** file: components/Layout/user.css **/
+
+.data {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid var(--black);
+}
+.data:last-child {
+	border: none;
+}
