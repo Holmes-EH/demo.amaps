@@ -5,6 +5,9 @@ h2 {
 	text-align: center;
 	margin: 1em auto;
 }
+p {
+	margin: 7px 0;
+}
 a {
 	color: whitesmoke;
 }
@@ -24,6 +27,7 @@ a {
 	background-size: cover;
 	background-position: center;
 	background-attachment: fixed;
+	padding-bottom: 50px;
 }
 .flex {
 	display: flex;

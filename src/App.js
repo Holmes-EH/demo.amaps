@@ -8,6 +8,7 @@ import { Switch, Route } from 'react-router-dom'
 import './App.css'
 import Recover from './components/Reset/Recover'
 import NewPassword from './components/Reset/NewPassword'
+import Layout from './components/Layout/Layout'
 
 function App() {
 	const globalState = useContext(store)
@@ -43,7 +44,7 @@ function App() {
 					</Switch>
 				)
 			) : (
-				<p>You are logged in !..</p>
+				<Layout />
 			)}
 		</div>
 	)

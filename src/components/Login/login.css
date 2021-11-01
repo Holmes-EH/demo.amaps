@@ -97,8 +97,8 @@
 }
 
 .button:hover {
-	color: var(--orange);
-	background-color: var(--black);
+	color: var(--white);
+	background-color: var(--dark-green);
 }
 .link {
 	text-decoration: underline;

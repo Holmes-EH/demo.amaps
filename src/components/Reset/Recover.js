@@ -11,7 +11,7 @@ const Recover = () => {
 	const { dispatch } = globalState
 	const { message, loading, messageType, amap } = globalState.state
 
-	let history = useHistory()
+	const history = useHistory()
 
 	const [email, setEmail] = useState('')
 

@@ -1,0 +1,54 @@
+/** file: components/Layout/layout.css **/
+
+nav {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+nav ul {
+	list-style: none;
+	padding: 10px 0;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	font-size: 2em;
+	background-color: var(--orange);
+	color: var(--black);
+}
+li a {
+	display: flex;
+	color: var(--black);
+}
+li.active a {
+	color: var(--sanguine);
+}
+
+/** Order page **/
+.order {
+	margin: auto;
+	padding: 1em;
+}
+.order form {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+.order label {
+	margin-right: 5px;
+}
+.productInput {
+	padding: 0;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--black);
+}
+.productInput input {
+	margin: 0;
+	border: none;
+}
+.total {
+	align-items: center;
+	justify-content: right;
+}
