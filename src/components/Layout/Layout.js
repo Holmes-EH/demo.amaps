@@ -5,7 +5,12 @@ import { Switch, Route, Link, useLocation } from 'react-router-dom'
 
 import Toaster from '../Toaster'
 
-import { BiUser, BiFoodMenu, BiInfoCircle } from 'react-icons/bi'
+import {
+	BiUser,
+	BiFoodMenu,
+	BiInfoCircle,
+	BiLogOutCircle,
+} from 'react-icons/bi'
 
 import './layout.css'
 import Order from './Order'
@@ -19,6 +24,11 @@ const Layout = () => {
 		globalState.state
 
 	const curUrl = useLocation().pathname
+
+	const disconnectUser = () => {
+		localStorage.removeItem('juju2fruits_user')
+		dispatch({ type: 'RESET_USER_LOGIN' })
+	}
 
 	useEffect(() => {
 		const getProducts = async () => {
@@ -116,10 +126,10 @@ const Layout = () => {
 				dispatch({ type: 'FINISHED_LOADING' })
 			}
 		}
-		if (session.session) {
+		if (session.session && !user.isAdmin) {
 			getNextDelivery()
 		}
-	}, [dispatch, user.token, session.session, amap._id])
+	}, [dispatch, user, session.session, amap._id])
 
 	useEffect(() => {
 		const getExistingOrder = async () => {
@@ -153,8 +163,10 @@ const Layout = () => {
 				dispatch({ type: 'FINISHED_LOADING' })
 			}
 		}
-		getExistingOrder()
-	}, [dispatch, session.session, user.token])
+		if (!user.isAdmin) {
+			getExistingOrder()
+		}
+	}, [dispatch, session.session, user])
 
 	return (
 		<>
@@ -171,10 +183,14 @@ const Layout = () => {
 							<BiFoodMenu />
 						</Link>
 					</li>
-
 					<li className={curUrl === '/profil' ? 'active' : ''}>
 						<Link to='/profil'>
 							<BiUser />
+						</Link>
+					</li>
+					<li>
+						<Link to='/'>
+							<BiLogOutCircle onClick={disconnectUser} />
 						</Link>
 					</li>
 				</ul>
