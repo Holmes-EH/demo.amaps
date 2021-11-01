@@ -3,7 +3,6 @@ import { useContext, useEffect } from 'react'
 import axios from 'axios'
 import { Switch, Route, Link, useLocation } from 'react-router-dom'
 
-import Loader from '../Loader/Loader'
 import Toaster from '../Toaster'
 
 import { BiUser, BiFoodMenu, BiInfoCircle } from 'react-icons/bi'
@@ -16,7 +15,7 @@ import Info from './Info'
 const Layout = () => {
 	const globalState = useContext(store)
 	const { dispatch } = globalState
-	const { user, message, loading, messageType, products, session, amap } =
+	const { user, message, messageType, products, session, amap } =
 		globalState.state
 
 	const curUrl = useLocation().pathname
@@ -135,7 +134,7 @@ const Layout = () => {
 					`${process.env.REACT_APP_API_URL}/api/orders/myorders`,
 					config
 				)
-				if (data.session === session.session) {
+				if (data.userOrders[0].session === session.session) {
 					dispatch({
 						type: 'SET_EXISTING_ORDER',
 						payload: data.userOrders[0],
@@ -180,21 +179,17 @@ const Layout = () => {
 					</li>
 				</ul>
 			</nav>
-			{loading ? (
-				<Loader />
-			) : (
-				<Switch>
-					<Route path='/commande'>
-						<Order />
-					</Route>
-					<Route path='/profil'>
-						<User />
-					</Route>
-					<Route path='/'>
-						<Info />
-					</Route>
-				</Switch>
-			)}
+			<Switch>
+				<Route path='/commande'>
+					<Order />
+				</Route>
+				<Route path='/profil'>
+					<User />
+				</Route>
+				<Route path='/'>
+					<Info />
+				</Route>
+			</Switch>
 		</>
 	)
 }
