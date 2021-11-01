@@ -11,6 +11,7 @@ const initialState = {
 	session: {},
 	nextDelivery: {},
 	products: [],
+	existingOrder: {},
 }
 const store = createContext(initialState)
 const { Provider } = store
@@ -48,6 +49,8 @@ const StateProvider = ({ children }) => {
 				return { ...state, session: action.payload }
 			case 'SET_NEXT_DELIVERY':
 				return { ...state, nextDelivery: action.payload }
+			case 'SET_EXISTING_ORDER':
+				return { ...state, existingOrder: action.payload }
 			default:
 				throw new Error()
 		}

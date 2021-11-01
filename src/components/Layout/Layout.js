@@ -122,6 +122,41 @@ const Layout = () => {
 		}
 	}, [dispatch, user.token, session.session, amap._id])
 
+	useEffect(() => {
+		const getExistingOrder = async () => {
+			dispatch({ type: 'LOADING' })
+			try {
+				const config = {
+					headers: {
+						Authorization: `Bearer ${user.token}`,
+					},
+				}
+				const { data } = await axios.get(
+					`${process.env.REACT_APP_API_URL}/api/orders/myorders`,
+					config
+				)
+				if (data.session === session.session) {
+					dispatch({
+						type: 'SET_EXISTING_ORDER',
+						payload: data.userOrders[0],
+					})
+				}
+				dispatch({ type: 'FINISHED_LOADING' })
+			} catch (error) {
+				dispatch({
+					type: 'MESSAGE',
+					payload:
+						error.response && error.response.data.message
+							? error.response.data.message
+							: error.message,
+					messageType: 'error',
+				})
+				dispatch({ type: 'FINISHED_LOADING' })
+			}
+		}
+		getExistingOrder()
+	}, [dispatch, session.session, user.token])
+
 	return (
 		<>
 			{message && <Toaster message={message} type={messageType} />}
