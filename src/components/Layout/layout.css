@@ -4,6 +4,7 @@ nav {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
+	z-index: 1;
 }
 
 nav ul {
@@ -50,5 +51,5 @@ li.active a {
 }
 .total {
 	align-items: center;
-	justify-content: right;
+	justify-content: flex-end;
 }
