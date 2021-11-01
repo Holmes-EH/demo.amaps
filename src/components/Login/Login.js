@@ -1,6 +1,8 @@
 import { useContext, useState } from 'react'
 import axios from 'axios'
 import { store } from '../../store'
+import { useHistory } from 'react-router-dom'
+
 import Loader from '../Loader/Loader'
 import Lemon from '../Lemon'
 import Toaster from '../Toaster'
@@ -11,6 +13,8 @@ const Login = () => {
 	const globalState = useContext(store)
 	const { dispatch } = globalState
 	const { message, loading, messageType } = globalState.state
+
+	let history = useHistory()
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -66,18 +70,18 @@ const Login = () => {
 	}
 
 	const resetPassword = () => {
-		console.log('reset password')
+		history.push('/recover')
 	}
 
 	return (
-		<div className='flex login'>
+		<>
 			{message && <Toaster message={message} type={messageType} />}
 			{loading ? (
 				<Loader />
 			) : register ? (
-				<Register />
+				<Register setRegister={setRegister} />
 			) : (
-				<>
+				<div className='flex login'>
 					<div className='logo'>
 						<Lemon />
 					</div>
@@ -129,9 +133,9 @@ const Login = () => {
 							Créez-en un ici
 						</div>
 					</div>
-				</>
+				</div>
 			)}
-		</div>
+		</>
 	)
 }
 

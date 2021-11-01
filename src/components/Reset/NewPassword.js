@@ -1,28 +1,24 @@
 import { useContext, useState } from 'react'
 import axios from 'axios'
 import { store } from '../../store'
+
+import { useHistory } from 'react-router-dom'
+
 import Loader from '../Loader/Loader'
-import Lemon from '../Lemon'
 import Toaster from '../Toaster'
 
-const Register = ({ setRegister }) => {
+const NewPassword = () => {
 	const globalState = useContext(store)
 	const { dispatch } = globalState
-	const { message, loading, messageType, amap } = globalState.state
+	const { user, message, loading, messageType } = globalState.state
 
-	const [name, setName] = useState('')
-	const [email, setEmail] = useState('')
+	const history = useHistory()
+
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
 
 	const inputChange = (e) => {
 		switch (e.target.name) {
-			case 'name':
-				setName(e.target.value)
-				break
-			case 'email':
-				setEmail(e.target.value)
-				break
 			case 'password':
 				setPassword(e.target.value)
 				break
@@ -34,9 +30,8 @@ const Register = ({ setRegister }) => {
 		}
 	}
 
-	const register = async () => {
+	const updateUser = async () => {
 		if (
-			email.length > 0 &&
 			password.length > 0 &&
 			confirmPassword.length > 0 &&
 			password === confirmPassword
@@ -45,23 +40,40 @@ const Register = ({ setRegister }) => {
 				type: 'LOADING',
 			})
 			try {
-				const { data } = await axios.post(
+				const config = {
+					headers: {
+						Authorization: `Bearer ${user.shortLivedToken}`,
+					},
+				}
+				const { data } = await axios.put(
 					`${process.env.REACT_APP_API_URL}/api/users`,
-					{ name, email, password, amap: amap._id }
+					{ _id: user._id, password },
+					config
 				)
 				localStorage.setItem('juju2fruits_user', JSON.stringify(data))
 				dispatch({ type: 'USER_LOGIN', payload: data })
 				dispatch({ type: 'FINISHED_LOADING' })
-			} catch (error) {
 				dispatch({
 					type: 'MESSAGE',
 					payload:
-						error.response && error.response.data.message
-							? error.response.data.message
-							: error.message,
+						'Mot de passe enregistré avec succés !\nMaintenant, vous pouvez vous reconnecter',
+					messageType: 'success',
+				})
+				history.push('/')
+			} catch (error) {
+				let message =
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message
+				message +=
+					'\nVeuillez renseigner votre mail à nouveau.\nInfo : Vous avez 2 minutes pour saisir et confirmer votre nouveau mot de passe...'
+				dispatch({
+					type: 'MESSAGE',
+					payload: message,
 					messageType: 'error',
 				})
 				dispatch({ type: 'FINISHED_LOADING' })
+				history.push('recover')
 			}
 		} else if (password !== confirmPassword) {
 			dispatch({
@@ -78,38 +90,15 @@ const Register = ({ setRegister }) => {
 				<Loader />
 			) : (
 				<div className='flex login column'>
-					<div className='logo'>
-						<Lemon />
-					</div>
+					<h2>
+						Bonjour
+						<br />
+						{user.name}
+					</h2>
+					<h3 style={{ textAlign: 'center' }}>
+						Veuillez saisir un nouveau mot de passe:
+					</h3>
 					<form>
-						<div className='field'>
-							<input
-								type='text'
-								name='name'
-								className='input'
-								placeholder=''
-								autoComplete='off'
-								required
-								onChange={(e) => inputChange(e)}
-							/>
-							<label htmlFor='email' className='label'>
-								Nom et prénom
-							</label>
-						</div>
-						<div className='field'>
-							<input
-								type='email'
-								name='email'
-								className='input'
-								placeholder=''
-								autoComplete='off'
-								required
-								onChange={(e) => inputChange(e)}
-							/>
-							<label htmlFor='email' className='label'>
-								Email
-							</label>
-						</div>
 						<div className='field'>
 							<input
 								type='password'
@@ -141,15 +130,9 @@ const Register = ({ setRegister }) => {
 						className='flex column'
 						style={{ alignItems: 'center' }}
 					>
-						<button className='button' onClick={() => register()}>
-							CRÉER MON COMPTE
+						<button className='button' onClick={() => updateUser()}>
+							ENREGISTRER
 						</button>
-						<div
-							className='link'
-							onClick={() => setRegister(false)}
-						>
-							Retour
-						</div>
 					</div>
 				</div>
 			)}
@@ -157,4 +140,4 @@ const Register = ({ setRegister }) => {
 	)
 }
 
-export default Register
+export default NewPassword

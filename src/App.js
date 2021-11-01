@@ -3,7 +3,11 @@ import Landing from './components/Landing/Landing'
 import { store } from './store'
 import { useContext } from 'react'
 
+import { Switch, Route } from 'react-router-dom'
+
 import './App.css'
+import Recover from './components/Reset/Recover'
+import NewPassword from './components/Reset/NewPassword'
 
 function App() {
 	const globalState = useContext(store)
@@ -26,7 +30,17 @@ function App() {
 				!amap._id ? (
 					<Landing />
 				) : (
-					<Login />
+					<Switch>
+						<Route path='/reset'>
+							<NewPassword />
+						</Route>
+						<Route path='/recover'>
+							<Recover />
+						</Route>
+						<Route path='/'>
+							<Login />
+						</Route>
+					</Switch>
 				)
 			) : (
 				<p>You are logged in !..</p>

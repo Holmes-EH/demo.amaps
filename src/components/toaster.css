@@ -1,8 +1,5 @@
 /** file: /components/toaster.css **/
 
-.toastContainer {
-	justify-content: center;
-}
 .login .toastContainer {
 	top: 2em;
 	left: 0;
@@ -26,6 +23,7 @@
 }
 .error {
 	background: var(--strawberry);
+	color: white;
 }
 .success {
 	background: var(--light-green);

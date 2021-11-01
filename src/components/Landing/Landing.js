@@ -52,12 +52,12 @@ const Landing = () => {
 	}
 
 	return (
-		<div className='flex login'>
+		<>
 			{message && <Toaster message={message} type={messageType} />}
 			{loading ? (
 				<Loader />
 			) : (
-				<>
+				<div className='flex login'>
 					<div className='logo'>
 						<Lemon />
 					</div>
@@ -96,9 +96,9 @@ const Landing = () => {
 							Étape suivante
 						</button>
 					</div>
-				</>
+				</div>
 			)}
-		</div>
+		</>
 	)
 }
 

@@ -7,7 +7,6 @@ const amapFromStorage =
 
 const initialState = {
 	user: userFromStorage,
-	firstConnection: true,
 	amap: amapFromStorage,
 	products: [],
 }
