@@ -284,7 +284,7 @@ const User = () => {
 								setResetPassword(true)
 							}}
 						>
-							RÉINITIALSIER
+							RÉINITIALISER
 							<br />
 							MON MOT DE PASSE
 						</button>
