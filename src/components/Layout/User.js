@@ -153,7 +153,7 @@ const User = () => {
 						</p>
 					</div>
 					<div className='data'>
-						<p style={{ paddingRight: ' 5px' }}>Email&npsp;:</p>
+						<p style={{ paddingRight: ' 5px' }}>Email&nbsp;:</p>
 						<p>
 							<b>{user.email}</b>
 						</p>
