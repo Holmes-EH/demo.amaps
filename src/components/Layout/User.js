@@ -145,20 +145,20 @@ const User = () => {
 		<div className='flex column' style={{ width: '100%' }}>
 			<div className='flex login glass'>
 				<h2>Mes informations</h2>
-				<div className='card'>
-					<div className='data'>
+				<div className='card' style={{ textAlign: 'center' }}>
+					<div className='data column'>
 						<p style={{ paddingRight: ' 5px' }}>Nom :</p>
 						<p>
 							<b>{user.name}</b>
 						</p>
 					</div>
-					<div className='data'>
+					<div className='data column'>
 						<p style={{ paddingRight: ' 5px' }}>Email&nbsp;:</p>
 						<p>
 							<b>{user.email}</b>
 						</p>
 					</div>
-					<div className='data'>
+					<div className='data column'>
 						<p style={{ paddingRight: ' 5px' }}>Mon Amap :</p>
 						<p>
 							<b>{amap.name}</b>
