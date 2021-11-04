@@ -43,7 +43,28 @@ const Info = () => {
 					</button>
 				</div>
 			) : (
-				history.push('/commande')
+				<div className='flex login' style={{ padding: '0' }}>
+					<div
+						className='flex column glass'
+						style={{ padding: '1em' }}
+					>
+						<h3 style={{ textAlign: 'center' }}>
+							Aucune information particulière
+							<br />
+							pour le mois de{' '}
+							{new Date(session.lastOrderDate).toLocaleDateString(
+								'fr-FR',
+								{ month: 'long' }
+							)}
+						</h3>
+					</div>
+					<button
+						className='button'
+						onClick={() => history.push('/commande')}
+					>
+						PASSER COMMANDE
+					</button>
+				</div>
 			)}
 		</>
 	)
