@@ -165,10 +165,22 @@ const Order = () => {
 				dispatch({ type: 'FINISHED_LOADING' })
 			}
 		}
-		if (nextDelivery === {}) {
+		if (
+			nextDelivery &&
+			Object.keys(nextDelivery).length === 0 &&
+			Object.getPrototypeOf(nextDelivery) === Object.prototype
+		) {
 			getNextDelivery()
 		}
 	}, [dispatch, user.token, session.session, amap._id, nextDelivery])
+
+	useEffect(() => {
+		let initialDetails = []
+		products.map((product) => {
+			return initialDetails.push({ product, quantity: 0 })
+		})
+		setDetails(initialDetails)
+	}, [products])
 
 	return (
 		<div className='flex glass order column'>
@@ -189,6 +201,41 @@ const Order = () => {
 					</h3>
 
 					<form>
+						{details.map((detail) => {
+							return (
+								<div
+									key={detail.product._id}
+									className='productInput flex'
+								>
+									<label htmlFor={detail.product.title}>
+										{detail.product.title}
+										<br />
+										<i style={{ fontSize: '0.8em' }}>
+											{detail.product.title === 'Mangues'
+												? 'Pièces'
+												: 'Kilos'}
+										</i>
+									</label>
+									<input
+										type='number'
+										inputMode='numeric'
+										min='0'
+										name={detail.product.title}
+										value={detail.quantity}
+										autoComplete='off'
+										onChange={(e) =>
+											setQuantity(
+												detail.product,
+												e.target.value
+											)
+										}
+									/>
+								</div>
+							)
+						})}
+					</form>
+
+					{/* <form>
 						{products.map((product) => {
 							const detailToDisplay = details.filter(
 								(detail) =>
@@ -233,7 +280,10 @@ const Order = () => {
 										/>
 									</div>
 								)
-							} else if (product.isAvailable) {
+							} else if (
+								detailToDisplay.length === 0 &&
+								product.isAvailable
+							) {
 								return (
 									<div
 										key={`new-${product._id}`}
@@ -268,7 +318,7 @@ const Order = () => {
 								return null
 							}
 						})}
-					</form>
+					</form> */}
 					<div className='total flex'>
 						<h3 style={{ margin: '0' }}>
 							Total :{' '}
@@ -276,7 +326,7 @@ const Order = () => {
 						</h3>
 					</div>
 					<button className='button' onClick={() => sendOrder()}>
-						PLACER MA COMMANDE
+						PASSER COMMANDE
 					</button>
 					<button
 						className='button'
