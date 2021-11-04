@@ -27,6 +27,8 @@ const Layout = () => {
 
 	const disconnectUser = () => {
 		localStorage.removeItem('juju2fruits_user')
+		localStorage.removeItem('juju2fruits_amap')
+		dispatch({ type: 'RESET_AMAP' })
 		dispatch({ type: 'RESET_USER_LOGIN' })
 	}
 
@@ -68,36 +70,6 @@ const Layout = () => {
 			getProducts()
 		}
 	}, [dispatch, user.token, products])
-
-	useEffect(() => {
-		const getSession = async () => {
-			dispatch({ type: 'LOADING' })
-			try {
-				const config = {
-					headers: {
-						Authorization: `Bearer ${user.token}`,
-					},
-				}
-				const { data } = await axios.get(
-					`${process.env.REACT_APP_API_URL}/api/sessions?current=true`,
-					config
-				)
-				dispatch({ type: 'SET_SESSION', payload: data })
-				dispatch({ type: 'FINISHED_LOADING' })
-			} catch (error) {
-				dispatch({
-					type: 'MESSAGE',
-					payload:
-						error.response && error.response.data.message
-							? error.response.data.message
-							: error.message,
-					messageType: 'error',
-				})
-				dispatch({ type: 'FINISHED_LOADING' })
-			}
-		}
-		getSession()
-	}, [dispatch, user.token])
 
 	useEffect(() => {
 		const getNextDelivery = async () => {
@@ -171,41 +143,67 @@ const Layout = () => {
 	return (
 		<>
 			{message && <Toaster message={message} type={messageType} />}
-			<nav>
-				<ul>
-					<li className={curUrl === '/' ? 'active' : ''}>
-						<Link to='/'>
-							<BiInfoCircle />
-						</Link>
-					</li>
-					<li className={curUrl === '/commande' ? 'active' : ''}>
-						<Link to='/commande'>
-							<BiFoodMenu />
-						</Link>
-					</li>
-					<li className={curUrl === '/profil' ? 'active' : ''}>
-						<Link to='/profil'>
-							<BiUser />
-						</Link>
-					</li>
-					<li>
-						<Link to='/'>
-							<BiLogOutCircle onClick={disconnectUser} />
-						</Link>
-					</li>
-				</ul>
-			</nav>
-			<Switch>
-				<Route path='/commande'>
-					<Order />
-				</Route>
-				<Route path='/profil'>
-					<User />
-				</Route>
-				<Route path='/'>
-					<Info />
-				</Route>
-			</Switch>
+			{session ? (
+				<>
+					<nav>
+						<ul>
+							<li className={curUrl === '/' ? 'active' : ''}>
+								<Link to='/'>
+									<BiInfoCircle />
+								</Link>
+							</li>
+							<li
+								className={
+									curUrl === '/commande' ? 'active' : ''
+								}
+							>
+								<Link to='/commande'>
+									<BiFoodMenu />
+								</Link>
+							</li>
+							<li
+								className={curUrl === '/profil' ? 'active' : ''}
+							>
+								<Link to='/profil'>
+									<BiUser />
+								</Link>
+							</li>
+							<li>
+								<Link to='/'>
+									<BiLogOutCircle onClick={disconnectUser} />
+								</Link>
+							</li>
+						</ul>
+					</nav>
+					<Switch>
+						<Route path='/commande'>
+							<Order />
+						</Route>
+						<Route path='/profil'>
+							<User />
+						</Route>
+						<Route path='/'>
+							<Info />
+						</Route>
+					</Switch>
+				</>
+			) : (
+				<div className='flex login' style={{ padding: '0' }}>
+					<div
+						className='flex column glass'
+						style={{ padding: '1em' }}
+					>
+						<h1>
+							Les commandes pour ce mois-ci sont désormais
+							fermées...
+						</h1>
+						<h3 style={{ textAlign: 'center' }}>
+							J'avertirai votre amap dès que les commandes pour le
+							mois prochain seront accessibles.
+						</h3>
+					</div>
+				</div>
+			)}
 		</>
 	)
 }
