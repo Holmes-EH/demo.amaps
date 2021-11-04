@@ -19,6 +19,10 @@ const { Provider } = store
 const StateProvider = ({ children }) => {
 	const [state, dispatch] = useReducer((state, action) => {
 		switch (action.type) {
+			case 'SET_AMAP':
+				return { ...state, amap: action.payload }
+			case 'RESET_AMAP':
+				return { ...state, amap: {} }
 			case 'USER_LOGIN':
 				return { ...state, user: action.payload }
 			case 'RESET_USER_LOGIN':
@@ -43,8 +47,7 @@ const StateProvider = ({ children }) => {
 			case 'RESET_PRODUCT_LIST': {
 				return { ...state, products: undefined }
 			}
-			case 'SET_AMAP':
-				return { ...state, amap: action.payload }
+
 			case 'SET_SESSION':
 				return { ...state, session: action.payload }
 			case 'SET_NEXT_DELIVERY':
