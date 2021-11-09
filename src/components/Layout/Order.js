@@ -19,6 +19,7 @@ const Order = () => {
 	} = globalContext.state
 
 	const [details, setDetails] = useState([])
+	const [clickedRecallOrder, setClickedRecallOrder] = useState(false)
 
 	const getOrderTotal = (total, detail) => {
 		return total + detail.quantity * detail.product.pricePerKg
@@ -106,6 +107,7 @@ const Order = () => {
 	}
 
 	const getPreviousOrder = async () => {
+		setClickedRecallOrder(true)
 		dispatch({ type: 'LOADING' })
 		try {
 			const config = {
@@ -117,8 +119,19 @@ const Order = () => {
 				`${process.env.REACT_APP_API_URL}/api/orders/myorders?limit=2`,
 				config
 			)
-			dispatch({ type: 'FINISHED_LOADING' })
-			setDetails(data.userOrders.at(-1).details)
+
+			if (data.userOrders.length > 0) {
+				setDetails(data.userOrders.at(-1).details)
+				dispatch({ type: 'FINISHED_LOADING' })
+			} else {
+				dispatch({
+					type: 'MESSAGE',
+					payload:
+						"Nous n'avons pas trouvé de commande à reprendre...\nMerci de renseigner les champs ci-dessous.",
+					messageType: 'error',
+				})
+				dispatch({ type: 'FINISHED_LOADING' })
+			}
 		} catch (error) {
 			dispatch({
 				type: 'MESSAGE',
@@ -132,11 +145,12 @@ const Order = () => {
 		}
 	}
 
+	// eslint-disable-next-line
 	useEffect(() => {
 		if (existingOrder && existingOrder.details) {
 			setDetails(existingOrder.details)
 		}
-	}, [existingOrder])
+	})
 
 	useEffect(() => {
 		const getNextDelivery = async () => {
@@ -189,15 +203,7 @@ const Order = () => {
 			) : (
 				<>
 					<h3 style={{ textAlign: 'center', marginTop: '0' }}>
-						Votre commande
-						<br />
-						Distribution prévue le
-						<br />
-						{new Date(nextDelivery).toLocaleDateString('fr-FR', {
-							weekday: 'long',
-							day: 'numeric',
-							month: 'long',
-						})}
+						Votre commande :
 					</h3>
 
 					<form>
@@ -234,91 +240,6 @@ const Order = () => {
 							)
 						})}
 					</form>
-
-					{/* <form>
-						{products.map((product) => {
-							const detailToDisplay = details.filter(
-								(detail) =>
-									detail.product._id === product._id &&
-									product.isAvailable
-							)
-							if (detailToDisplay.length !== 0) {
-								return (
-									<div
-										key={detailToDisplay[0].product._id}
-										className='productInput flex'
-									>
-										<label
-											htmlFor={
-												detailToDisplay[0].product.title
-											}
-										>
-											{detailToDisplay[0].product.title}
-											<br />
-											<i style={{ fontSize: '0.8em' }}>
-												{detailToDisplay[0].product
-													.title === 'Mangues'
-													? 'Pièces'
-													: 'Kilos'}
-											</i>
-										</label>
-										<input
-											type='number'
-											inputMode='numeric'
-											min='0'
-											name={
-												detailToDisplay[0].product.title
-											}
-											value={detailToDisplay[0].quantity}
-											autoComplete='off'
-											onChange={(e) =>
-												setQuantity(
-													detailToDisplay[0].product,
-													e.target.value
-												)
-											}
-										/>
-									</div>
-								)
-							} else if (
-								detailToDisplay.length === 0 &&
-								product.isAvailable
-							) {
-								return (
-									<div
-										key={`new-${product._id}`}
-										className='productInput flex'
-									>
-										<label htmlFor={product.title}>
-											{product.title}
-											<br />
-											<i style={{ fontSize: '0.8em' }}>
-												{product.title === 'Mangues'
-													? 'Pièces'
-													: 'Kilos'}
-											</i>
-										</label>
-										<input
-											type='number'
-											inputMode='numeric'
-											min='0'
-											name={product.title}
-											value='0'
-											autoComplete='off'
-											onChange={(e) =>
-												setQuantity(
-													product,
-													e.target.value
-												)
-											}
-										/>
-									</div>
-								)
-							} else {
-								return null
-							}
-						})}
-					</form> */}
 					<div className='total flex'>
 						<h3 style={{ margin: '0' }}>
 							Total :{' '}
@@ -328,12 +249,23 @@ const Order = () => {
 					<button className='button' onClick={() => sendOrder()}>
 						PASSER COMMANDE
 					</button>
-					<button
-						className='button'
-						onClick={() => getPreviousOrder()}
-					>
-						Remplir avec ma dernière commande
-					</button>
+					{!clickedRecallOrder && (
+						<button
+							className='button'
+							onClick={() => getPreviousOrder()}
+						>
+							Reprendre ma dernière commande
+						</button>
+					)}
+					<h3 style={{ textAlign: 'center', marginTop: '0' }}>
+						Distribution prévue le
+						<br />
+						{new Date(nextDelivery).toLocaleDateString('fr-FR', {
+							weekday: 'long',
+							day: 'numeric',
+							month: 'long',
+						})}
+					</h3>
 				</>
 			)}
 		</div>
