@@ -1,0 +1,13 @@
+/* file : /components/Layout/contact.css */
+
+.contact input,
+.contact textarea {
+	border: none;
+}
+.required {
+	color: var(--sanguine);
+}
+.required input,
+.required textarea {
+	outline: 1px solid var(--sanguine);
+}

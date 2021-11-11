@@ -149,6 +149,7 @@ const Order = () => {
 	useEffect(() => {
 		if (existingOrder && existingOrder.details) {
 			setDetails(existingOrder.details)
+			setClickedRecallOrder(true)
 		}
 	})
 

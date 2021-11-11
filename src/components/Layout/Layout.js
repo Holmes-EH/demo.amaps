@@ -10,12 +10,14 @@ import {
 	BiFoodMenu,
 	BiInfoCircle,
 	BiLogOutCircle,
+	BiEnvelope,
 } from 'react-icons/bi'
 
 import './layout.css'
 import Order from './Order'
 import User from './User'
 import Info from './Info'
+import Contact from './Contact'
 
 const Layout = () => {
 	const globalState = useContext(store)
@@ -113,7 +115,7 @@ const Layout = () => {
 					},
 				}
 				const { data } = await axios.get(
-					`${process.env.REACT_APP_API_URL}/api/orders/myorders`,
+					`${process.env.REACT_APP_API_URL}/api/orders/myorders?limit=1`,
 					config
 				)
 				if (data.userOrders[0].session === session.session) {
@@ -135,7 +137,7 @@ const Layout = () => {
 				dispatch({ type: 'FINISHED_LOADING' })
 			}
 		}
-		if (!user.isAdmin) {
+		if (user) {
 			getExistingOrder()
 		}
 	}, [dispatch, session.session, user])
@@ -169,6 +171,11 @@ const Layout = () => {
 								</Link>
 							</li>
 							<li>
+								<Link to='/contact'>
+									<BiEnvelope />
+								</Link>
+							</li>
+							<li>
 								<Link to='/'>
 									<BiLogOutCircle onClick={disconnectUser} />
 								</Link>
@@ -181,6 +188,9 @@ const Layout = () => {
 						</Route>
 						<Route path='/profil'>
 							<User />
+						</Route>
+						<Route path='/contact'>
+							<Contact />
 						</Route>
 						<Route path='/'>
 							<Info />
