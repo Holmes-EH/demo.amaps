@@ -22,7 +22,14 @@ function App() {
 	return (
 		<>
 			{firstContact ? (
-				<div className='flex column' style={{ margin: 'auto' }}>
+				<div
+					className='flex column'
+					style={{
+						width: '100%',
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}
+				>
 					<button
 						className='button danger'
 						onClick={() => setFirstContact(false)}

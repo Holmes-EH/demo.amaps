@@ -94,12 +94,7 @@ const FirstContact = () => {
 			{loading ? (
 				<Loader />
 			) : (
-				<div
-					className='flex glass column contact'
-					style={{
-						margin: 'auto',
-					}}
-				>
+				<div className='flex glass column contact'>
 					<h2 style={{ marginBottom: '0' }}>
 						Pour m'envoyer un message,
 					</h2>
