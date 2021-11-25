@@ -37,7 +37,7 @@ const Contact = () => {
 						Authorization: `Bearer ${user.token}`,
 					},
 				}
-				const { data } = await axios.post(
+				await axios.post(
 					`${process.env.REACT_APP_API_URL}/api/users/sendmessage`,
 					{
 						user,
@@ -48,7 +48,6 @@ const Contact = () => {
 					},
 					config
 				)
-				console.log(data)
 				dispatch({ type: 'FINISHED_LOADING' })
 				dispatch({
 					type: 'MESSAGE',

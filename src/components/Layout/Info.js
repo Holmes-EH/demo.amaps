@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import Loader from '../Loader/Loader'
 import Toaster from '../Toaster'
+import Lemon from '../Lemon'
 
 const Info = () => {
 	const globalState = useContext(store)
@@ -48,22 +49,18 @@ const Info = () => {
 						className='flex column glass'
 						style={{ padding: '1em' }}
 					>
+						<div style={{ maxWidth: '170px', margin: 'auto' }}>
+							<Lemon />
+						</div>
+						<h1>
+							Les commandes pour ce mois-ci sont désormais
+							clôturées...
+						</h1>
 						<h3 style={{ textAlign: 'center' }}>
-							Aucune information particulière
-							<br />
-							pour le mois de{' '}
-							{new Date(session.lastOrderDate).toLocaleDateString(
-								'fr-FR',
-								{ month: 'long' }
-							)}
+							J'avertirai votre amap dès que les prochaines seront
+							accessibles.
 						</h3>
 					</div>
-					<button
-						className='button'
-						onClick={() => history.push('/commande')}
-					>
-						PASSER COMMANDE
-					</button>
 				</div>
 			)}
 		</>
