@@ -210,34 +210,44 @@ const Order = () => {
 					<form>
 						{details.map((detail) => {
 							return (
-								<div
-									key={detail.product._id}
-									className='productInput flex'
-								>
-									<label htmlFor={detail.product.title}>
-										{detail.product.title}
-										<br />
-										<i style={{ fontSize: '0.8em' }}>
-											{detail.product.title === 'Mangues'
-												? 'Pièces'
-												: 'Kilos'}
-										</i>
-									</label>
-									<input
-										type='number'
-										inputMode='numeric'
-										min='0'
-										name={detail.product.title}
-										value={detail.quantity}
-										autoComplete='off'
-										onChange={(e) =>
-											setQuantity(
-												detail.product,
-												e.target.value
-											)
-										}
-									/>
-								</div>
+								products.filter(
+									(product) =>
+										detail.product._id === product._id
+								)[0].isAvailable && (
+									<div
+										key={detail.product._id}
+										className='productInput flex'
+									>
+										<label htmlFor={detail.product.title}>
+											{detail.product.title}
+											<br />
+											<i
+												style={{
+													fontSize: '0.8em',
+												}}
+											>
+												{detail.product.title ===
+												'Mangues'
+													? 'Pièces'
+													: 'Kilos'}
+											</i>
+										</label>
+										<input
+											type='number'
+											inputMode='numeric'
+											min='0'
+											name={detail.product.title}
+											value={detail.quantity}
+											autoComplete='off'
+											onChange={(e) =>
+												setQuantity(
+													detail.product,
+													e.target.value
+												)
+											}
+										/>
+									</div>
+								)
 							)
 						})}
 					</form>
