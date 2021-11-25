@@ -27,7 +27,7 @@ const FirstContact = () => {
 
 	const startTesting = (e) => {
 		e.preventDefault()
-		document.body.style.userSelect = 'none'
+		document.body.className = 'unselectable'
 		setTestingStarted(true)
 		timeout.current = setTimeout(() => {
 			setIsHuman(true)
@@ -36,7 +36,7 @@ const FirstContact = () => {
 	const stopTesting = (e) => {
 		e.preventDefault()
 		clearTimeout(timeout.current)
-		document.body.style.userSelect = null
+		document.body.className = null
 		setTestingStarted(false)
 	}
 
