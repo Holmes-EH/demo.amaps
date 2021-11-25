@@ -1,0 +1,86 @@
+.captcha p {
+	text-align: center;
+}
+.icon {
+	max-width: 130px;
+	margin: 1em auto;
+	cursor: pointer;
+}
+
+.captcha .lemonText {
+	display: none;
+}
+
+.captcha #_1 {
+	transform: matrix(
+		0.319942,
+		0.947437,
+		-0.947437,
+		0.319942,
+		1576.85,
+		-310.209
+	);
+}
+
+.captcha #_0,
+.captcha #_1,
+.captcha #_2,
+.captcha #_3,
+.captcha #_4,
+.captcha #_5,
+.captcha #_6,
+.captcha #_7,
+.captcha #_8,
+.captcha #_9 {
+	opacity: 0;
+}
+
+@keyframes appear {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.testing #_0,
+.testing #_1,
+.testing #_2,
+.testing #_3,
+.testing #_4,
+.testing #_5,
+.testing #_6,
+.testing #_7,
+.testing #_8,
+.testing #_9 {
+	animation: appear 0.5s forwards;
+}
+
+.testing #_1 {
+	animation-delay: 0.5s;
+}
+.testing #_2 {
+	animation-delay: 1s;
+}
+.testing #_3 {
+	animation-delay: 1.5s;
+}
+.testing #_4 {
+	animation-delay: 2s;
+}
+.testing #_5 {
+	animation-delay: 2.5s;
+}
+.testing #_6 {
+	animation-delay: 3s;
+}
+.testing #_7 {
+	animation-delay: 3.5s;
+}
+.testing #_8 {
+	animation-delay: 4s;
+}
+.testing #_9 {
+	animation-delay: 4.5s;
+}
