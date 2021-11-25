@@ -7,7 +7,7 @@ import Toaster from '../Toaster'
 
 import {
 	BiUser,
-	BiFoodMenu,
+	BiBasket,
 	BiInfoCircle,
 	BiLogOutCircle,
 	BiEnvelope,
@@ -27,6 +27,8 @@ const Layout = () => {
 
 	const curUrl = useLocation().pathname
 
+	const today = new Date()
+
 	const disconnectUser = () => {
 		localStorage.removeItem('juju2fruits_user')
 		localStorage.removeItem('juju2fruits_amap')
@@ -34,6 +36,40 @@ const Layout = () => {
 		dispatch({ type: 'RESET_USER_LOGIN' })
 	}
 
+	// Get Session
+	useEffect(() => {
+		const getSession = async () => {
+			dispatch({ type: 'LOADING' })
+			try {
+				const config = {
+					headers: {
+						Authorization: `Bearer ${user.token}`,
+					},
+				}
+				const { data } = await axios.get(
+					`${process.env.REACT_APP_API_URL}/api/sessions?current=true`,
+					config
+				)
+				dispatch({ type: 'SET_SESSION', payload: data })
+				dispatch({ type: 'FINISHED_LOADING' })
+			} catch (error) {
+				dispatch({
+					type: 'MESSAGE',
+					payload:
+						error.response && error.response.data.message
+							? error.response.data.message
+							: error.message,
+					messageType: 'error',
+				})
+				dispatch({ type: 'FINISHED_LOADING' })
+			}
+		}
+		if (user.token) {
+			getSession()
+		}
+	}, [dispatch, user.token])
+
+	// Get Products
 	useEffect(() => {
 		const getProducts = async () => {
 			dispatch({ type: 'LOADING' })
@@ -73,6 +109,7 @@ const Layout = () => {
 		}
 	}, [dispatch, user.token, products])
 
+	// Get Next delivery
 	useEffect(() => {
 		const getNextDelivery = async () => {
 			dispatch({ type: 'LOADING' })
@@ -105,6 +142,7 @@ const Layout = () => {
 		}
 	}, [dispatch, user, session.session, amap._id])
 
+	// Get Existing order
 	useEffect(() => {
 		const getExistingOrder = async () => {
 			dispatch({ type: 'LOADING' })
@@ -118,7 +156,10 @@ const Layout = () => {
 					`${process.env.REACT_APP_API_URL}/api/orders/myorders?limit=1`,
 					config
 				)
-				if (data.userOrders[0].session === session.session) {
+				if (
+					data.userOrders.length > 0 &&
+					data.userOrders[0].session === session.session
+				) {
 					dispatch({
 						type: 'SET_EXISTING_ORDER',
 						payload: data.userOrders[0],
@@ -154,15 +195,18 @@ const Layout = () => {
 									<BiInfoCircle />
 								</Link>
 							</li>
-							<li
-								className={
-									curUrl === '/commande' ? 'active' : ''
-								}
-							>
-								<Link to='/commande'>
-									<BiFoodMenu />
-								</Link>
-							</li>
+							{new Date(session.lastOrderDate) >= today && (
+								<li
+									className={
+										curUrl === '/commande' ? 'active' : ''
+									}
+								>
+									<Link to='/commande'>
+										<BiBasket />
+									</Link>
+								</li>
+							)}
+
 							<li
 								className={curUrl === '/profil' ? 'active' : ''}
 							>
@@ -170,7 +214,11 @@ const Layout = () => {
 									<BiUser />
 								</Link>
 							</li>
-							<li>
+							<li
+								className={
+									curUrl === '/contact' ? 'active' : ''
+								}
+							>
 								<Link to='/contact'>
 									<BiEnvelope />
 								</Link>
