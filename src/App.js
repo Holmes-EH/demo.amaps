@@ -15,7 +15,7 @@ import { BiEnvelope } from 'react-icons/bi'
 
 function App() {
 	const globalState = useContext(store)
-	const { user, amap } = globalState.state
+	const { user, amap, loading } = globalState.state
 
 	const [firstContact, setFirstContact] = useState(false)
 
@@ -46,19 +46,21 @@ function App() {
 					>
 						<Landing />
 
-						<div>
-							<button
-								className='button flex'
-								style={{ alignItems: 'center' }}
-								onClick={() => setFirstContact(true)}
-							>
-								{' '}
-								<BiEnvelope style={{ fontSize: '1.5em' }} />
-								<span style={{ paddingLeft: '1em' }}>
-									Contactez - moi
-								</span>
-							</button>
-						</div>
+						{!loading && (
+							<div>
+								<button
+									className='button flex'
+									style={{ alignItems: 'center' }}
+									onClick={() => setFirstContact(true)}
+								>
+									{' '}
+									<BiEnvelope style={{ fontSize: '1.5em' }} />
+									<span style={{ paddingLeft: '1em' }}>
+										Contactez - moi
+									</span>
+								</button>
+							</div>
+						)}
 					</div>
 				) : (
 					<Switch>
