@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import axios from 'axios'
 import { store } from '../../store'
 
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import Loader from '../Loader/Loader'
 import Toaster from '../Toaster'
@@ -13,6 +13,10 @@ const NewPassword = () => {
 	const { user, message, loading, messageType } = globalState.state
 
 	const history = useHistory()
+	const slt = useLocation().search.substr(1).split('&')[0]
+	const userId = useLocation().search.substr(1).split('&')[1]
+
+	console.log(slt)
 
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
@@ -42,16 +46,15 @@ const NewPassword = () => {
 			try {
 				const config = {
 					headers: {
-						Authorization: `Bearer ${user.shortLivedToken}`,
+						Authorization: `Bearer ${slt}`,
 					},
 				}
 				const { data } = await axios.put(
 					`${process.env.REACT_APP_API_URL}/api/users`,
-					{ _id: user._id, password },
+					{ _id: userId, password },
 					config
 				)
 				localStorage.setItem('juju2fruits_user', JSON.stringify(data))
-				dispatch({ type: 'USER_LOGIN', payload: data })
 				dispatch({ type: 'FINISHED_LOADING' })
 				dispatch({
 					type: 'MESSAGE',
@@ -65,15 +68,13 @@ const NewPassword = () => {
 					error.response && error.response.data.message
 						? error.response.data.message
 						: error.message
-				message +=
-					'\nVeuillez renseigner votre mail à nouveau.\nInfo : Vous avez 2 minutes pour saisir et confirmer votre nouveau mot de passe...'
 				dispatch({
 					type: 'MESSAGE',
 					payload: message,
 					messageType: 'error',
 				})
 				dispatch({ type: 'FINISHED_LOADING' })
-				history.push('recover')
+				history.push('/')
 			}
 		} else if (password !== confirmPassword) {
 			dispatch({

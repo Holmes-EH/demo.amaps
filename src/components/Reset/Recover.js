@@ -25,9 +25,13 @@ const Recover = () => {
 				{ email, amap: amap._id }
 			)
 			localStorage.setItem('juju2fruits_user', JSON.stringify(data))
-			dispatch({ type: 'USER_LOGIN', payload: data })
+			dispatch({
+				type: 'MESSAGE',
+				payload: data.message,
+				messageType: 'success',
+			})
 			dispatch({ type: 'FINISHED_LOADING' })
-			history.push('/reset')
+			history.push('/')
 		} catch (error) {
 			dispatch({
 				type: 'MESSAGE',
