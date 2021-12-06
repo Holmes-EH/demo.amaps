@@ -38,6 +38,7 @@ const Layout = () => {
 
 	// Get Session
 	useEffect(() => {
+		let mounted = true
 		const getSession = async () => {
 			dispatch({ type: 'LOADING' })
 			try {
@@ -50,27 +51,42 @@ const Layout = () => {
 					`${process.env.REACT_APP_API_URL}/api/sessions?current=true`,
 					config
 				)
-				dispatch({ type: 'SET_SESSION', payload: data })
+				mounted && dispatch({ type: 'SET_SESSION', payload: data })
 				dispatch({ type: 'FINISHED_LOADING' })
 			} catch (error) {
-				dispatch({
-					type: 'MESSAGE',
-					payload:
-						error.response && error.response.data.message
-							? error.response.data.message
-							: error.message,
-					messageType: 'error',
-				})
+				if (error.response.status === 401) {
+					localStorage.removeItem('juju2fruits_user')
+					dispatch({ type: 'RESET_USER_LOGIN' })
+					dispatch({
+						type: 'MESSAGE',
+						payload:
+							error.response && error.response.data.message
+								? error.response.data.message
+								: error.message,
+						messageType: 'error',
+					})
+				} else {
+					dispatch({
+						type: 'MESSAGE',
+						payload:
+							error.response && error.response.data.message
+								? error.response.data.message
+								: error.message,
+						messageType: 'error',
+					})
+				}
 				dispatch({ type: 'FINISHED_LOADING' })
 			}
 		}
 		if (user.token) {
 			getSession()
 		}
+		return () => (mounted = false)
 	}, [dispatch, user.token])
 
 	// Get Products
 	useEffect(() => {
+		let mounted = true
 		const getProducts = async () => {
 			dispatch({ type: 'LOADING' })
 			try {
@@ -83,20 +99,34 @@ const Layout = () => {
 					`${process.env.REACT_APP_API_URL}/api/products`,
 					config
 				)
+				mounted &&
+					dispatch({
+						type: 'SET_PRODUCT_LIST',
+						payload: data,
+					})
 				dispatch({ type: 'FINISHED_LOADING' })
-				dispatch({
-					type: 'SET_PRODUCT_LIST',
-					payload: data,
-				})
 			} catch (error) {
-				dispatch({
-					type: 'MESSAGE',
-					payload:
-						error.response && error.response.data.message
-							? error.response.data.message
-							: error.message,
-					messageType: 'error',
-				})
+				if (error.response.status === 401) {
+					localStorage.removeItem('juju2fruits_user')
+					dispatch({ type: 'RESET_USER_LOGIN' })
+					dispatch({
+						type: 'MESSAGE',
+						payload:
+							error.response && error.response.data.message
+								? error.response.data.message
+								: error.message,
+						messageType: 'error',
+					})
+				} else {
+					dispatch({
+						type: 'MESSAGE',
+						payload:
+							error.response && error.response.data.message
+								? error.response.data.message
+								: error.message,
+						messageType: 'error',
+					})
+				}
 				dispatch({ type: 'FINISHED_LOADING' })
 			}
 		}
@@ -107,10 +137,12 @@ const Layout = () => {
 		) {
 			getProducts()
 		}
+		return () => (mounted = false)
 	}, [dispatch, user.token, products])
 
 	// Get Next delivery
 	useEffect(() => {
+		let mounted = true
 		const getNextDelivery = async () => {
 			dispatch({ type: 'LOADING' })
 			try {
@@ -123,27 +155,46 @@ const Layout = () => {
 					`${process.env.REACT_APP_API_URL}/api/orders/recaps/nextdelivery?session=${session.session}&amap=${amap._id}`,
 					config
 				)
-				dispatch({ type: 'SET_NEXT_DELIVERY', payload: data.delivery })
+				mounted &&
+					dispatch({
+						type: 'SET_NEXT_DELIVERY',
+						payload: data.delivery,
+					})
 				dispatch({ type: 'FINISHED_LOADING' })
 			} catch (error) {
-				dispatch({
-					type: 'MESSAGE',
-					payload:
-						error.response && error.response.data.message
-							? error.response.data.message
-							: error.message,
-					messageType: 'error',
-				})
+				if (error.response.status === 401) {
+					localStorage.removeItem('juju2fruits_user')
+					dispatch({ type: 'RESET_USER_LOGIN' })
+					dispatch({
+						type: 'MESSAGE',
+						payload:
+							error.response && error.response.data.message
+								? error.response.data.message
+								: error.message,
+						messageType: 'error',
+					})
+				} else {
+					dispatch({
+						type: 'MESSAGE',
+						payload:
+							error.response && error.response.data.message
+								? error.response.data.message
+								: error.message,
+						messageType: 'error',
+					})
+				}
 				dispatch({ type: 'FINISHED_LOADING' })
 			}
 		}
 		if (session.session && !user.isAdmin) {
 			getNextDelivery()
 		}
+		return () => (mounted = false)
 	}, [dispatch, user, session.session, amap._id])
 
 	// Get Existing order
 	useEffect(() => {
+		let mounted = true
 		const getExistingOrder = async () => {
 			dispatch({ type: 'LOADING' })
 			try {
@@ -158,7 +209,8 @@ const Layout = () => {
 				)
 				if (
 					data.userOrders.length > 0 &&
-					data.userOrders[0].session === session.session
+					data.userOrders[0].session === session.session &&
+					mounted
 				) {
 					dispatch({
 						type: 'SET_EXISTING_ORDER',
@@ -167,20 +219,34 @@ const Layout = () => {
 				}
 				dispatch({ type: 'FINISHED_LOADING' })
 			} catch (error) {
-				dispatch({
-					type: 'MESSAGE',
-					payload:
-						error.response && error.response.data.message
-							? error.response.data.message
-							: error.message,
-					messageType: 'error',
-				})
+				if (error.response.status === 401) {
+					localStorage.removeItem('juju2fruits_user')
+					dispatch({ type: 'RESET_USER_LOGIN' })
+					dispatch({
+						type: 'MESSAGE',
+						payload:
+							error.response && error.response.data.message
+								? error.response.data.message
+								: error.message,
+						messageType: 'error',
+					})
+				} else {
+					dispatch({
+						type: 'MESSAGE',
+						payload:
+							error.response && error.response.data.message
+								? error.response.data.message
+								: error.message,
+						messageType: 'error',
+					})
+				}
 				dispatch({ type: 'FINISHED_LOADING' })
 			}
 		}
 		if (user) {
 			getExistingOrder()
 		}
+		return () => (mounted = false)
 	}, [dispatch, session.session, user])
 
 	return (
