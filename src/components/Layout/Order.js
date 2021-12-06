@@ -18,6 +18,15 @@ const Order = () => {
 		existingOrder,
 	} = globalContext.state
 
+	const elision = (productTitle) => {
+		const vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'h']
+		if (vowels.includes(productTitle.slice(0, 1).toLowerCase())) {
+			return `d'${productTitle.toLowerCase()}`
+		} else {
+			return `de ${productTitle.toLowerCase()}`
+		}
+	}
+
 	const [details, setDetails] = useState([])
 	const [clickedRecallOrder, setClickedRecallOrder] = useState(false)
 
@@ -26,19 +35,39 @@ const Order = () => {
 	}
 
 	const setQuantity = (product, quantity) => {
-		let newDetails = [...details]
-		let detail = newDetails.filter(
-			(detail) => detail.product._id === product._id
-		)
-		if (detail.length > 0) {
-			const detailIndex = details.findIndex(
+		let confirmed = false
+		const message = () => {
+			return product.title === 'Mangues'
+				? `${quantity} ${product.title}`
+				: `${quantity} kg ${elision(product.title)}`
+		}
+		if (quantity > 10) {
+			if (
+				window.confirm(
+					`Vous êtes sur le point de commander ${message()}\nVoulez-vous continuer ?`
+				)
+			) {
+				confirmed = true
+			}
+		} else {
+			confirmed = true
+		}
+
+		if (confirmed) {
+			let newDetails = [...details]
+			let detail = newDetails.filter(
 				(detail) => detail.product._id === product._id
 			)
-			newDetails[detailIndex].quantity = quantity
-		} else {
-			newDetails.push({ product, quantity })
+			if (detail.length > 0) {
+				const detailIndex = details.findIndex(
+					(detail) => detail.product._id === product._id
+				)
+				newDetails[detailIndex].quantity = quantity
+			} else {
+				newDetails.push({ product, quantity })
+			}
+			setDetails(newDetails)
 		}
-		setDetails(newDetails)
 	}
 
 	const sendOrder = async () => {
