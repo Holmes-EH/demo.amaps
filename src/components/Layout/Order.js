@@ -3,20 +3,11 @@ import { useContext } from 'react'
 import { store } from '../../store'
 import axios from 'axios'
 
-import Loader from '../Loader/Loader'
-
 const Order = () => {
 	const globalContext = useContext(store)
 	const { dispatch } = globalContext
-	const {
-		user,
-		loading,
-		products,
-		session,
-		amap,
-		nextDelivery,
-		existingOrder,
-	} = globalContext.state
+	const { user, products, session, amap, nextDelivery, existingOrder } =
+		globalContext.state
 
 	const elision = (productTitle) => {
 		const vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'h']
@@ -228,86 +219,79 @@ const Order = () => {
 
 	return (
 		<div className='flex glass order column'>
-			{loading ? (
-				<Loader />
-			) : (
-				<>
-					<h3 style={{ textAlign: 'center', marginTop: '0' }}>
-						Votre commande :
-					</h3>
+			<>
+				<h3 style={{ textAlign: 'center', marginTop: '0' }}>
+					Votre commande :
+				</h3>
 
-					<form>
-						{details.map((detail) => {
-							return (
-								products.filter(
-									(product) =>
-										detail.product._id === product._id
-								)[0].isAvailable && (
-									<div
-										key={detail.product._id}
-										className='productInput flex'
-									>
-										<label htmlFor={detail.product.title}>
-											{detail.product.title}
-											<br />
-											<i
-												style={{
-													fontSize: '0.8em',
-												}}
-											>
-												{detail.product.title ===
-												'Mangues'
-													? 'Pièces'
-													: 'Kilos'}
-											</i>
-										</label>
-										<input
-											type='number'
-											inputMode='numeric'
-											min='0'
-											name={detail.product.title}
-											value={detail.quantity}
-											autoComplete='off'
-											onChange={(e) =>
-												setQuantity(
-													detail.product,
-													e.target.value
-												)
-											}
-										/>
-									</div>
-								)
+				<form>
+					{details.map((detail) => {
+						return (
+							products.filter(
+								(product) => detail.product._id === product._id
+							)[0].isAvailable && (
+								<div
+									key={detail.product._id}
+									className='productInput flex'
+								>
+									<label htmlFor={detail.product.title}>
+										{detail.product.title}
+										<br />
+										<i
+											style={{
+												fontSize: '0.8em',
+											}}
+										>
+											{detail.product.title === 'Mangues'
+												? 'Pièces'
+												: 'Kilos'}
+										</i>
+									</label>
+									<input
+										type='number'
+										inputMode='numeric'
+										min='0'
+										name={detail.product.title}
+										value={detail.quantity}
+										autoComplete='off'
+										onChange={(e) =>
+											setQuantity(
+												detail.product,
+												e.target.value
+											)
+										}
+									/>
+								</div>
 							)
-						})}
-					</form>
-					<div className='total flex'>
-						<h3 style={{ margin: '0' }}>
-							Total :{' '}
-							{details.reduce(getOrderTotal, 0).toFixed(2)} €
-						</h3>
-					</div>
-					<button className='button' onClick={() => sendOrder()}>
-						PASSER COMMANDE
-					</button>
-					{!clickedRecallOrder && (
-						<button
-							className='button'
-							onClick={() => getPreviousOrder()}
-						>
-							Reprendre ma dernière commande
-						</button>
-					)}
-					<h3 style={{ textAlign: 'center', marginTop: '0' }}>
-						Distribution prévue le
-						<br />
-						{new Date(nextDelivery).toLocaleDateString('fr-FR', {
-							weekday: 'long',
-							day: 'numeric',
-							month: 'long',
-						})}
+						)
+					})}
+				</form>
+				<div className='total flex'>
+					<h3 style={{ margin: '0' }}>
+						Total : {details.reduce(getOrderTotal, 0).toFixed(2)} €
 					</h3>
-				</>
-			)}
+				</div>
+				<button className='button' onClick={() => sendOrder()}>
+					PASSER COMMANDE
+				</button>
+				{!clickedRecallOrder && (
+					<button
+						className='button'
+						onClick={() => getPreviousOrder()}
+					>
+						Reprendre ma dernière commande
+					</button>
+				)}
+				<h3 style={{ textAlign: 'center', marginTop: '0' }}>
+					Distribution prévue le
+					<br />
+					{new Date(nextDelivery).toLocaleDateString('fr-FR', {
+						weekday: 'long',
+						day: 'numeric',
+						month: 'long',
+					})}
+				</h3>
+			</>
 		</div>
 	)
 }

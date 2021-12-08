@@ -2,22 +2,19 @@ import { store } from '../../store'
 import { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import Loader from '../Loader/Loader'
 import Toaster from '../Toaster'
 import Lemon from '../Lemon'
 
 const Info = () => {
 	const globalState = useContext(store)
-	const { session, message, loading, messageType } = globalState.state
+	const { session, message, messageType } = globalState.state
 
 	const history = useHistory()
 
 	return (
 		<>
 			{message && <Toaster message={message} type={messageType} />}
-			{loading ? (
-				<Loader />
-			) : session.news ? (
+			{session.news ? (
 				<div className='flex login' style={{ padding: '0' }}>
 					<div
 						className='flex column glass'

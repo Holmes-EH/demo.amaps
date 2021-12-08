@@ -18,11 +18,12 @@ import Order from './Order'
 import User from './User'
 import Info from './Info'
 import Contact from './Contact'
+import Loader from '../Loader/Loader'
 
 const Layout = () => {
 	const globalState = useContext(store)
 	const { dispatch } = globalState
-	const { user, message, messageType, products, session, amap } =
+	const { user, message, messageType, products, session, amap, loading } =
 		globalState.state
 
 	const curUrl = useLocation().pathname
@@ -252,7 +253,9 @@ const Layout = () => {
 	return (
 		<>
 			{message && <Toaster message={message} type={messageType} />}
-			{session ? (
+			{loading ? (
+				<Loader />
+			) : session ? (
 				<>
 					<nav>
 						<ul>
