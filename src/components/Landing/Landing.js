@@ -67,7 +67,7 @@ const Landing = () => {
 					<p style={{ textAlign: 'center' }}>
 						Veuillez saisir le
 						<br />
-						<b>code amap</b>{' '}
+						<b>code d'accès</b>{' '}
 						<i style={{ fontSize: '0.8em' }}>code à 6 chiffres</i>
 						<br />
 						qui vous a été envoyé par email

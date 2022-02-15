@@ -26,6 +26,7 @@ const Order = () => {
 	}
 
 	const setQuantity = (product, quantity) => {
+		if (!Number.isInteger(parseFloat(quantity))) return
 		let confirmed = false
 		const message = () => {
 			return product.title === 'Mangues'
