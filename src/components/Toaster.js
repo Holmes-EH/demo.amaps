@@ -21,6 +21,8 @@ const Toaster = ({ message, type = 'error' }) => {
 					<h1>😬</h1>
 				) : type === 'success' ? (
 					<h1>😁</h1>
+				) : type === 'warning' ? (
+					<h1>🤔</h1>
 				) : (
 					<h1>🧐</h1>
 				)}

@@ -72,6 +72,10 @@ textarea {
 	background-color: var(--strawberry);
 	color: whitesmoke;
 }
+.warning {
+	background-color: var(--orange);
+}
+
 .glass {
 	/* From https://css.glass */
 	background: rgba(255, 255, 255, 0.8);
