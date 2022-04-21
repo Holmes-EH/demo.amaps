@@ -1,7 +1,7 @@
 import { store } from '../../store'
 import { useContext, useEffect } from 'react'
 import axios from 'axios'
-import { Switch, Route, Link, useLocation } from 'react-router-dom'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 
 import Toaster from '../Toaster'
 
@@ -299,20 +299,12 @@ const Layout = () => {
 							</li>
 						</ul>
 					</nav>
-					<Switch>
-						<Route path='/commande'>
-							<Order />
-						</Route>
-						<Route path='/profil'>
-							<User />
-						</Route>
-						<Route path='/contact'>
-							<Contact />
-						</Route>
-						<Route path='/'>
-							<Info />
-						</Route>
-					</Switch>
+					<Routes>
+						<Route path='/commande' element={<Order />} />
+						<Route path='/profil' element={<User />} />
+						<Route path='/contact' element={<Contact />} />
+						<Route path='/' element={<Info />} />
+					</Routes>
 				</>
 			) : (
 				<div className='flex login' style={{ padding: '0' }}>

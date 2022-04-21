@@ -3,7 +3,7 @@ import Landing from './components/Landing/Landing'
 import { store } from './store'
 import { useState, useContext } from 'react'
 
-import { Switch, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 import './App.css'
 import Recover from './components/Reset/Recover'
@@ -63,17 +63,11 @@ function App() {
 						)}
 					</div>
 				) : (
-					<Switch>
-						<Route path='/reset'>
-							<NewPassword />
-						</Route>
-						<Route path='/recover'>
-							<Recover />
-						</Route>
-						<Route path='/'>
-							<Login />
-						</Route>
-					</Switch>
+					<Routes>
+						<Route path='/reset' element={<NewPassword />} />
+						<Route path='/recover' element={<Recover />} />
+						<Route path='/' element={<Login />} />
+					</Routes>
 				)
 			) : (
 				<Layout />

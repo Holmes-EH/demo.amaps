@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import axios from 'axios'
 import { store } from '../../store'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Loader from '../Loader/Loader'
 import Toaster from '../Toaster'
@@ -11,7 +11,7 @@ const Recover = () => {
 	const { dispatch } = globalState
 	const { message, loading, messageType, amap } = globalState.state
 
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	const [email, setEmail] = useState('')
 
@@ -31,7 +31,7 @@ const Recover = () => {
 				messageType: 'success',
 			})
 			dispatch({ type: 'FINISHED_LOADING' })
-			history.push('/')
+			navigate('/')
 		} catch (error) {
 			dispatch({
 				type: 'MESSAGE',

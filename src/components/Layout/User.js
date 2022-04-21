@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { store } from '../../store'
 import axios from 'axios'
 
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import './user.css'
 
@@ -12,7 +12,7 @@ const User = () => {
 	const { dispatch } = globalContext
 	const { user, amap } = globalContext.state
 
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	const [modfiy, setModfiy] = useState(false)
 	const [resetPassword, setResetPassword] = useState(false)
@@ -112,7 +112,7 @@ const User = () => {
 							'Mot de passe enregistré avec succés !\nMaintenant, vous pouvez vous reconnecter',
 						messageType: 'success',
 					})
-					history.push('/')
+					navigate('/')
 				} catch (error) {
 					let message =
 						error.response && error.response.data.message

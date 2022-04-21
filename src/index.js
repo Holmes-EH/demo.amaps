@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { StateProvider } from './store'
@@ -13,7 +13,9 @@ const backgroundImageUrl = () => {
 	return `/images/${getRandomInt(6)}.jpg`
 }
 
-ReactDOM.render(
+const container = document.getElementById('root')
+const root = createRoot(container)
+root.render(
 	<StateProvider>
 		<Router>
 			<div
@@ -23,6 +25,5 @@ ReactDOM.render(
 				<App />
 			</div>
 		</Router>
-	</StateProvider>,
-	document.getElementById('root')
+	</StateProvider>
 )

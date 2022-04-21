@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import axios from 'axios'
 import { store } from '../../store'
 
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import Loader from '../Loader/Loader'
 import Toaster from '../Toaster'
@@ -12,7 +12,7 @@ const NewPassword = () => {
 	const { dispatch } = globalState
 	const { user, message, loading, messageType } = globalState.state
 
-	const history = useHistory()
+	const navigate = useNavigate()
 	const slt = useLocation().search.substr(1).split('&')[0]
 	const userId = useLocation().search.substr(1).split('&')[1]
 
@@ -62,7 +62,7 @@ const NewPassword = () => {
 						'Mot de passe enregistré avec succés !\nMaintenant, vous pouvez vous reconnecter',
 					messageType: 'success',
 				})
-				history.push('/')
+				navigate('/')
 			} catch (error) {
 				let message =
 					error.response && error.response.data.message
@@ -74,7 +74,7 @@ const NewPassword = () => {
 					messageType: 'error',
 				})
 				dispatch({ type: 'FINISHED_LOADING' })
-				history.push('/')
+				navigate('/')
 			}
 		} else if (password !== confirmPassword) {
 			dispatch({

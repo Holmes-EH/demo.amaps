@@ -1,6 +1,6 @@
 import { store } from '../../store'
 import { useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Toaster from '../Toaster'
 import Lemon from '../Lemon'
@@ -9,7 +9,16 @@ const Info = () => {
 	const globalState = useContext(store)
 	const { session, message, messageType } = globalState.state
 
-	const history = useHistory()
+	const navigate = useNavigate()
+
+	const elision = (month) => {
+		const vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'h']
+		if (vowels.includes(month.slice(0, 1).toLowerCase())) {
+			return `d'${month.toLowerCase()}`
+		} else {
+			return `de ${month.toLowerCase()}`
+		}
+	}
 
 	return (
 		<>
@@ -21,11 +30,12 @@ const Info = () => {
 						style={{ padding: '1em' }}
 					>
 						<h3 style={{ textAlign: 'center' }}>
-							Informations du mois de
+							Informations du mois
 							<br />
-							{new Date(session.lastOrderDate).toLocaleDateString(
-								'fr-FR',
-								{ month: 'long' }
+							{elision(
+								new Date(
+									session.lastOrderDate
+								).toLocaleDateString('fr-FR', { month: 'long' })
 							)}
 						</h3>
 
@@ -35,7 +45,7 @@ const Info = () => {
 					</div>
 					<button
 						className='button'
-						onClick={() => history.push('/commande')}
+						onClick={() => navigate('/commande')}
 					>
 						PASSER COMMANDE
 					</button>

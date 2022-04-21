@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import axios from 'axios'
 import { store } from '../../store'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Loader from '../Loader/Loader'
 import Lemon from '../Lemon'
@@ -14,7 +14,7 @@ const Login = () => {
 	const { dispatch } = globalState
 	const { message, loading, messageType } = globalState.state
 
-	let history = useHistory()
+	let navigate = useNavigate()
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -70,7 +70,7 @@ const Login = () => {
 	}
 
 	const resetPassword = () => {
-		history.push('/recover')
+		navigate('/recover')
 	}
 
 	return (

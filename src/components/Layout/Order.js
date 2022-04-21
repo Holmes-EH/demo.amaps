@@ -66,7 +66,6 @@ const Order = () => {
 		const zeroQuantities = details.filter(
 			(detail) => parseInt(detail.quantity) !== 0
 		)
-		console.log(details)
 		if (zeroQuantities.length === 0) {
 			dispatch({
 				type: 'MESSAGE',
@@ -75,7 +74,6 @@ const Order = () => {
 			})
 			return
 		}
-		console.log('send order..')
 		dispatch({ type: 'LOADING' })
 		let detailsToSend = []
 		details.forEach((detail) => {
